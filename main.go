@@ -41,6 +41,7 @@ func createServer(root string) *Server {
 
 	fmt.Println("Mounted on root: " + root)
 
+	server.HandleFunc("/", server.listContainerObjects()).Methods("GET")
 	server.HandleFunc("/{container}", server.listContainerObjects()).Methods("GET")
 	server.HandleFunc("/{container}", server.createContainer()).Methods("PUT")
 	server.HandleFunc("/{container}", server.deleteContainer()).Methods("DELETE")
