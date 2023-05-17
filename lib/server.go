@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"hash/fnv"
 	"io"
-	"io/fs"
 	"mime"
 	"net/http"
 	"os"
@@ -132,7 +131,7 @@ func (s *Server) createContainer() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		container := mux.Vars(r)["container"]
 		path := path.Join(s.root, container)
-		err := os.Mkdir(path, fs.ModeDir)
+		err := os.Mkdir(path, 0700)
 		if err != nil {
 			fmt.Println((err.Error()))
 			http.Error(w, "Conflict", http.StatusConflict)
@@ -186,7 +185,7 @@ func (s *Server) createObject() http.HandlerFunc {
 		ext := path.Ext(object)
 		path := path.Join(s.root, container, object)
 		bytes, _ := io.ReadAll(r.Body)
-		os.WriteFile(path, bytes, fs.ModeExclusive)
+		os.WriteFile(path, bytes, 0644)
 		w.WriteHeader(http.StatusCreated)
 
 		s.containers[container].files[object] = &ObjectMetadata{
