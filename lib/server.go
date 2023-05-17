@@ -39,7 +39,7 @@ func CreateServer(root string) *Server {
 		Router: mux.NewRouter(),
 		root:   root,
 
-		// containers: *explore(root),
+		containers: *explore(root),
 	}
 
 	fmt.Println("Mounted on root: " + root)
@@ -85,8 +85,8 @@ func explore(root string) *map[string]*ContainerMetadata {
 				contentType:   mime.TypeByExtension(ext),
 			}
 
-			val, _ := json.MarshalIndent(meta, "", "   ")
-			fmt.Println(string(val))
+			// val, _ := json.MarshalIndent(meta, "", "   ")
+			// fmt.Println(string(val))
 
 			record[dir.Name()].files[file.Name()] = &meta
 
@@ -94,8 +94,8 @@ func explore(root string) *map[string]*ContainerMetadata {
 
 	}
 
-	val, _ := json.MarshalIndent(record, "", "   ")
-	fmt.Println(string(val))
+	// val, _ := json.MarshalIndent(record, "", "   ")
+	// fmt.Println(string(val))
 	return &record
 
 }
